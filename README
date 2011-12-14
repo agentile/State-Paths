@@ -1,0 +1,8 @@
+This code finds the possible paths through the U.S. States and applies a temperature range to filter the paths.
+
+The climate data comes from: http://www.esrl.noaa.gov/psd/data/usclimate/tmp.state.19712000.climo
+
+The NOAA plans to have newer data around Feb. 2012
+
+Associated Blog Post 
+http://agentile.com/paths-through-the-us-states-considering-temperature
