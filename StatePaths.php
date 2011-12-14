@@ -427,41 +427,6 @@ class StatePaths {
     );
     
     /**
-     * Top level regions
-     */
-    public $regions = array(
-        'NE' => 'Northeast',
-        'MW' => 'Midwest',
-        'S'  => 'South',
-        'W'  => 'West'
-    );
-    
-    /**
-     * Sub Regions
-     */
-    public $sub_regions = array(
-        'WNC' => 'West North Central',
-        'M' => 'Mountain',
-        'P' => 'Pacific',
-        'ENC' => 'East North Central',
-        'WSC' => 'West South Central',
-        'NE' => 'New England',
-        'SA' => 'South Atlantic',
-        'MA' => 'Middle Atlantic',
-        'ESC' => 'East South Central'
-    );
-    
-    /**
-     * Parent child region mapping
-     */
-    public $regions_sub_regions = array(
-        'NE' => array('NE', 'MA'),
-        'MW' => array('ENC', 'WNC'),
-        'S'  => array('SA', 'ESC', 'WSC'),
-        'W'  => array('M', 'P')
-    );
-    
-    /**
      * State with their region and subregions
      * 
      * Top level regions:
