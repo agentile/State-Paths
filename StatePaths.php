@@ -35,9 +35,14 @@ class StatePaths {
     public $start_date;
     
     /**
-     * interval (time in state)
+     * interval (time in state) - Global
      */
     public $interval = '1 week';
+    
+    /**
+     * interval (time in state) - State Specific
+     */
+    public $state_intervals = array();
 
     /**
      * define our comfort range (F) - Globally apply to all states
@@ -644,7 +649,7 @@ class StatePaths {
     /**
      * setStateTempRange
      * 
-     * @state #state string
+     * @param $state string
      * @param $min float
      * @param $max float
      * 
@@ -653,6 +658,19 @@ class StatePaths {
     public function setStateTempRange($state, $min, $max)
     {
         $this->state_temp_ranges[strtoupper($state)] = array('min' => $min, 'max' => $max);
+    }
+    
+    /**
+     * setStateInterval
+     * 
+     * @param $state string
+     * @param $interval string
+     * 
+     * @return void
+     */
+    public function setStateInterval($state, $interval)
+    {
+        $this->state_intervals[strtoupper($state)] = $interval;
     }
     
     /**
@@ -747,6 +765,7 @@ class StatePaths {
             foreach ($path as $state) {
                 $month = (int) $this->start_date->format('n');
                 $temp = $this->states_month_temp[$state][$month];
+                
                 // do we have specific state temp range?
                 if (isset($this->state_temp_ranges[$state])) {
                     $min = $this->state_temp_ranges[$state]['min'];
@@ -755,12 +774,20 @@ class StatePaths {
                     $min = $this->min_temp;
                     $max = $this->max_temp;
                 }
+                
                 if ($temp < $min || $temp > $max) {
                     unset($this->paths[$k]);
                     break;
                 }
                 $temp_history[] = $temp;
-                $this->start_date->modify('+ ' . $this->interval);
+                
+                // increment our DateTime object for the given interval
+                if (isset($this->state_intervals[$state])) {
+                    $interval = $this->state_intervals[$state];
+                } else {
+                    $interval = $this->interval;
+                }
+                $this->start_date->modify('+ ' . $interval);
             }
             if (count($temp_history) == count($path)) {
                 $this->temps[] = $temp_history;
